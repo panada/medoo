@@ -1,15 +1,22 @@
 {
-	"name": "catfan/medoo",
+	"name": "panada/medoo",
 	"type": "framework",
 	"description": "The Lightest PHP database framework to accelerate development",
 	"keywords": ["database", "lightweight", "PHP framework", "SQL", "MySQL", "MSSQL", "SQLite"],
 	"homepage": "http://medoo.in",
 	"license": "MIT",
 	"authors": [
-		{"name": "Angel Lai", "email": "angel.lai.cat@gmail.com"}
+		{
+			"name": "Angel Lai",
+			"email": "angel.lai.cat@gmail.com"
+		},
+		{
+            "name": "Iskandar Soesman",
+            "email": "k4ndar@yahoo.com"
+        }
 	],
 	"require": {
-		"php": ">=5.1",
+		"php": ">=5.6",
 		"ext-pdo": "*"
 	},
 	"suggest": {
@@ -21,6 +28,8 @@
 		"ext-pdo-sqlite": "For SQLite databases"
 	},
 	"autoload": {
-		"files": ["medoo.php"]
+		"psr-4": {
+            "Panada\\Medoo\\": "Medoo.php"
+        }
 	}
 }

@@ -57,7 +57,7 @@ class Medoo
     public static function getInstance($type = 'default')
     {
         if (!isset(self::$instance[$type])) {
-            self::$instance[$type] = new static(\Panada\Resources\Config::database()[$type]);
+            self::$instance[$type] = new static(\Panada\Resource\Config::database()[$type]);
         }
 
         return self::$instance[$type];

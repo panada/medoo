@@ -6,7 +6,6 @@ use Panada\Medoo;
 
 class SQLTest extends \PHPUnit_Extensions_Database_TestCase
 {
-    private static $pdo = null;
     private static $db = null;
     private $conn = null;
     
@@ -14,18 +13,16 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
     {
         if ($this->conn === null) {
             
-            if (self::$pdo == null) {
+            if (self::$db == null) {
                 
                 self::$db = new Medoo\Medoo([
                     'databaseType' => 'sqlite',
                     'databaseFile' => ':memory:'
                 ]);
                 
-                self::$pdo = self::$db->pdo;
-                
                 $this->createTable();
             }
-            $this->conn = $this->createDefaultDBConnection(self::$pdo, ':memory:');
+            $this->conn = $this->createDefaultDBConnection(self::$db->pdo, ':memory:');
         }
 
         return $this->conn;
@@ -58,7 +55,7 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
     {
         $this->getConnection();
         
-        $lastInsertId = self::$pdo->lastInsertId();
+        $lastInsertId = self::$db->pdo->lastInsertId();
         
         $name = time();
         

@@ -30,13 +30,28 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
     
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `users` (
-            `id` int(11) NOT NULL,
-            `name` varchar(50) NOT NULL,
+        $sql = 'CREATE TABLE IF NOT EXISTS `account` (
+            `user_id` int(11) NOT NULL,
+            `user_name` varchar(50) NOT NULL,
             `email` varchar(50) NOT NULL,
             `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-            PRIMARY KEY (`id`)
-          )';
+            PRIMARY KEY (`user_id`)
+          );
+          CREATE TABLE IF NOT EXISTS `post` (
+            `post_id` int(11) NOT NULL,
+            `author_id` int(11) NOT NULL,
+            `avatar_id` int(11) NOT NULL,
+            PRIMARY KEY (`post_id`)
+          );
+          CREATE TABLE IF NOT EXISTS `album` (
+            `album_id` int(11) NOT NULL,
+            `user_id` int(11) NOT NULL,
+            PRIMARY KEY (`album_id`)
+          );
+          CREATE TABLE IF NOT EXISTS `photo` (
+            `avatar_id` int(11) NOT NULL,
+            PRIMARY KEY (`avatar_id`)
+          );';
           
         self::$db->pdo->exec($sql);
     }
@@ -44,9 +59,9 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
     protected function getDataSet()
     {
         return $this->createArrayDataSet([
-            'users' => [
-                ['id' => 1, 'email' => 'joe@gmail.com', 'name' => 'joe', 'created' => '2010-04-24 17:15:23'],
-                ['id' => 2, 'email' => 'mark@gmail.com',   'name' => 'mark',  'created' => '2010-04-26 12:14:20'],
+            'account' => [
+                ['user_id' => 1, 'email' => 'joe@gmail.com', 'user_name' => 'joe', 'created' => '2010-04-24 17:15:23'],
+                ['user_id' => 2, 'email' => 'mark@gmail.com',   'user_name' => 'mark',  'created' => '2010-04-26 12:14:20'],
             ],
         ]);
     }
@@ -59,9 +74,9 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
         
         $name = time();
         
-        $userId = self::$db->insert('users', [
-            'id' => $lastInsertId + 1,
-            'name' => $name,
+        $userId = self::$db->insert('account', [
+            'user_id' => $lastInsertId + 1,
+            'user_name' => $name,
             'email' => $name.'@bar.com',
         ]);
         
@@ -72,7 +87,7 @@ class SQLTest extends \PHPUnit_Extensions_Database_TestCase
     {
         $this->getConnection();
         
-        $users = self::$db->select('users', '*')->fetchAll(\PDO::FETCH_ASSOC);
+        $users = self::$db->select('account', '*')->fetchAll(\PDO::FETCH_ASSOC);
         
         $this->assertGreaterThanOrEqual(2, count($users));
     }

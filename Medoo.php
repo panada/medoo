@@ -328,15 +328,11 @@ class Medoo
                             $like_clauses = [];
 
                             foreach ($value as $item) {
-                                if ($operator == '!~') {
-                                    $column .= ' NOT';
-                                }
-
                                 if (preg_match('/^(?!%).+(?<!%)$/', $item)) {
                                     $item = '%'.$item.'%';
                                 }
 
-                                $like_clauses[] = $column.' LIKE '.$this->fnQuote($key, $item);
+                                $like_clauses[] = $column . ($operator === '!~' ? ' NOT' : '') . ' LIKE ' . $this->fn_quote($key, $item);
                             }
 
                             $wheres[] = implode(' OR ', $like_clauses);

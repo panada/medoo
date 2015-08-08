@@ -281,7 +281,7 @@ class Medoo
                     '('.$this->dataImplode($value, ' '.$relation_match[1]).')' :
                     '('.$this->innerConjunct($value, ' '.$relation_match[1], $conjunctor).')';
             } else {
-                preg_match('/(#?)([\w\.]+)(\[(\>|\>\=|\<|\<\=|\!|\<\>|\>\<|\!?~)\])?/i', $key, $match);
+                preg_match('/(#?)([\w\.\-]+)(\[(\>|\>\=|\<|\<\=|\!|\<\>|\>\<|\!?~)\])?/i', $key, $match);
                 $column = $this->columnQuote($match[2]);
 
                 if (isset($match[4])) {

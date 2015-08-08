@@ -200,7 +200,7 @@ class Medoo
 
     protected function columnQuote($string)
     {
-        return '"'.trim(str_replace('.', '"."', preg_replace('/(^#|\(JSON\))/', '', $string))).'"';
+        return '"'.str_replace('.', '"."', preg_replace('/(^#|\(JSON\)\s*)/', '', $string)).'"';
     }
 
     protected function columnPush($columns)

@@ -34,6 +34,8 @@ class Medoo
 
     // Optional
     protected $port;
+    
+    protected $prefix;
 
     protected $option = [];
 
@@ -89,6 +91,11 @@ class Medoo
 
             $type = strtolower($this->databaseType);
             $isPort = isset($port);
+            
+            if (isset($options['prefix']))
+			{
+				$this->prefix = $options['prefix'];
+			}
 
             switch ($type) {
                 case 'mariadb':
@@ -479,7 +486,7 @@ class Medoo
 
     protected function selectContext($table, $join, &$columns = null, $where = null, $column_fn = null)
     {
-        $table = '"'.$table.'"';
+        $table = '"' . $this->prefix . $table . '"';
         $join_key = is_array($join) ? array_keys($join) : null;
 
         if (
@@ -623,7 +630,7 @@ class Medoo
                 }
             }
 
-            $this->exec('INSERT INTO "'.$table.'" ('.implode(', ', $columns).') VALUES ('.implode($values, ', ').')');
+            $this->exec('INSERT INTO "' . $this->prefix . $table . '" (' . implode(', ', $columns) . ') VALUES (' . implode($values, ', ') . ')');
 
             $lastId[] = $this->pdo->lastInsertId();
         }
@@ -671,12 +678,12 @@ class Medoo
             }
         }
 
-        return $this->exec('UPDATE "'.$table.'" SET '.implode(', ', $fields).$this->whereClause($where));
+        return $this->exec('UPDATE "' . $this->prefix . $table . '" SET ' . implode(', ', $fields) . $this->whereClause($where));
     }
 
     public function delete($table, $where)
     {
-        return $this->exec('DELETE FROM "'.$table.'"'.$this->whereClause($where));
+        return $this->exec('DELETE FROM "' . $this->prefix . $table . '"' . $this->whereClause($where));
     }
 
     public function replace($table, $columns, $search = null, $replace = null, $where = null)
@@ -707,7 +714,7 @@ class Medoo
             }
         }
 
-        return $this->exec('UPDATE "'.$table.'" SET '.$replace_query.$this->whereClause($where));
+        return $this->exec('UPDATE "' . $this->prefix . $table . '" SET ' . $replace_query . $this->whereClause($where));
     }
 
     public function get($table, $join = null, $column = null, $where = null)
